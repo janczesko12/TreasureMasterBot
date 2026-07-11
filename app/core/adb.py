@@ -52,6 +52,36 @@ def _run(adb_path: str, args: list[str], timeout_s: float) -> str:
     return result.stdout
 
 
+def _run_binary(adb_path: str, args: list[str], timeout_s: float) -> bytes:
+    """Run an ``adb`` command and return its raw stdout bytes, raising :class:`AdbError` on failure.
+
+    Used instead of :func:`_run` for commands whose stdout is binary
+    (e.g. ``exec-out screencap``), where decoding as text would
+    corrupt the payload.
+    """
+    command = [adb_path, *args]
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=False,
+            timeout=timeout_s,
+            check=False,
+        )
+    except FileNotFoundError as exc:
+        raise AdbError(f"adb executable not found: {adb_path}") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise AdbError(f"adb command timed out after {timeout_s}s: {' '.join(command)}") from exc
+
+    if result.returncode != 0:
+        raise AdbError(
+            f"adb command failed (exit {result.returncode}): {' '.join(command)} - "
+            f"{result.stderr.decode(errors='replace').strip()}"
+        )
+
+    return result.stdout
+
+
 def list_devices(adb_path: str = "adb", timeout_s: float = DEFAULT_TIMEOUT_S) -> list[RawDeviceEntry]:
     """Return the raw ``adb devices -l`` entries.
 
@@ -104,3 +134,49 @@ def start_server(adb_path: str = "adb", timeout_s: float = DEFAULT_TIMEOUT_S) ->
     """Start the local ADB server."""
     logger.info("Starting ADB server")
     _run(adb_path, ["start-server"], timeout_s)
+
+
+def push(
+    serial: str,
+    local_path: str,
+    remote_path: str,
+    adb_path: str = "adb",
+    timeout_s: float = DEFAULT_TIMEOUT_S,
+) -> None:
+    """Copy a local file to ``remote_path`` on the given device."""
+    _run(adb_path, ["-s", serial, "push", local_path, remote_path], timeout_s)
+
+
+def forward(
+    serial: str,
+    local_port: int,
+    remote_socket_name: str,
+    adb_path: str = "adb",
+    timeout_s: float = DEFAULT_TIMEOUT_S,
+) -> None:
+    """Forward local TCP ``local_port`` to the device's ``localabstract:<remote_socket_name>``."""
+    _run(
+        adb_path,
+        ["-s", serial, "forward", f"tcp:{local_port}", f"localabstract:{remote_socket_name}"],
+        timeout_s,
+    )
+
+
+def remove_forward(
+    serial: str,
+    local_port: int,
+    adb_path: str = "adb",
+    timeout_s: float = DEFAULT_TIMEOUT_S,
+) -> None:
+    """Remove a previously set up ``adb forward`` for ``local_port``."""
+    _run(adb_path, ["-s", serial, "forward", "--remove", f"tcp:{local_port}"], timeout_s)
+
+
+def exec_out(
+    serial: str,
+    cmd: str,
+    adb_path: str = "adb",
+    timeout_s: float = DEFAULT_TIMEOUT_S,
+) -> bytes:
+    """Run ``adb exec-out <cmd>`` and return its raw stdout bytes (binary-safe)."""
+    return _run_binary(adb_path, ["-s", serial, "exec-out", cmd], timeout_s)

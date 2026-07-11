@@ -23,6 +23,7 @@ DEFAULT_ADB_PATH = "adb"
 DEFAULT_CONNECT_TIMEOUT_S = 10.0
 DEFAULT_POLL_INTERVAL_S = 2.0
 DEFAULT_LOG_LEVEL = "INFO"
+DEFAULT_SCRCPY_SERVER_JAR_PATH = "vendor/scrcpy-server.jar"
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,6 +44,12 @@ class AppConfig:
         Interval, in seconds, between device connection health checks.
     log_level:
         Root logger level name (e.g. ``"INFO"``, ``"DEBUG"``).
+    scrcpy_server_jar_path:
+        Path to a locally supplied ``scrcpy-server.jar`` (not bundled
+        with this repository - see ``app.core.scrcpy``). Relative
+        paths are resolved from the project root. Defaults to
+        ``"vendor/scrcpy-server.jar"``; if missing, ``CaptureThread``
+        falls back to the ``AdbScreencapBackend``.
     """
 
     adb_path: str = DEFAULT_ADB_PATH
@@ -50,6 +57,7 @@ class AppConfig:
     connect_timeout_s: float = DEFAULT_CONNECT_TIMEOUT_S
     poll_interval_s: float = DEFAULT_POLL_INTERVAL_S
     log_level: str = DEFAULT_LOG_LEVEL
+    scrcpy_server_jar_path: str = DEFAULT_SCRCPY_SERVER_JAR_PATH
 
     @property
     def log_level_int(self) -> int:

@@ -23,3 +23,12 @@ class DeviceNotFoundError(CoreError):
 
 class ConnectionLostError(CoreError):
     """Raised when a previously connected device becomes unreachable and automatic reconnect is exhausted."""
+
+
+class ScrcpyError(CoreError):
+    """Raised when the scrcpy capture backend fails to start or stream.
+
+    Covers server-jar push failure, socket-open failure, and decode
+    startup timeout. Callers (``CaptureThread``) catch this to fall
+    back to the ``AdbScreencapBackend``.
+    """
