@@ -1,6 +1,0 @@
-2026-07-11 10:58:37 | INFO     | __main__ | Startup
-2026-07-11 10:58:37 | INFO     | app.core.threading_model | CaptureThread started
-2026-07-11 10:58:37 | INFO     | app.core.threading_model | VisionThread started
-2026-07-11 10:58:37 | INFO     | app.core.threading_model | SolverThread started
-2026-07-11 10:58:37 | INFO     | app.core.threading_model | AutomationThread started
-2026-07-11 10:58:41 | INFO     | __main__ | Start requested (no-op in this version)

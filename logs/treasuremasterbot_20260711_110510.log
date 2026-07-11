@@ -1,6 +1,0 @@
-2026-07-11 11:05:10 | INFO     | __main__ | Startup
-2026-07-11 11:05:10 | INFO     | app.core.threading_model | CaptureThread started
-2026-07-11 11:05:10 | INFO     | app.core.threading_model | VisionThread started
-2026-07-11 11:05:10 | INFO     | app.core.threading_model | SolverThread started
-2026-07-11 11:05:10 | INFO     | app.core.threading_model | AutomationThread started
-2026-07-11 11:05:15 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
