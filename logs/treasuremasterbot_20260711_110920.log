@@ -1,0 +1,16 @@
+2026-07-11 11:09:20 | INFO     | __main__ | Startup
+2026-07-11 11:09:20 | INFO     | app.core.threading_model | CaptureThread started
+2026-07-11 11:09:20 | INFO     | app.core.threading_model | VisionThread started
+2026-07-11 11:09:20 | INFO     | app.core.threading_model | SolverThread started
+2026-07-11 11:09:20 | INFO     | app.core.threading_model | AutomationThread started
+2026-07-11 11:09:23 | INFO     | __main__ | Start requested (no-op in this version)
+2026-07-11 11:09:25 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:30 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:35 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:40 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:45 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:50 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:55 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:09:59 | INFO     | __main__ | Stop requested (no-op in this version)
+2026-07-11 11:10:00 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb
+2026-07-11 11:10:05 | WARNING  | app.core.threading_model | No device available yet: adb executable not found: adb

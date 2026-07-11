@@ -1,0 +1,1 @@
+"""TreasureMasterBot test suite."""
